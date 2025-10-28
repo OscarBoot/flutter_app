@@ -1,35 +1,29 @@
 import 'package:flutter/material.dart';
- 
+
 class CategoryAdd extends StatefulWidget {
   final Function categoryCallback;
 
   const CategoryAdd(this.categoryCallback, {super.key});
- 
+
   @override
   CategoryAddState createState() => CategoryAddState();
 }
- 
+
 class CategoryAddState extends State<CategoryAdd> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final categoryNameController = TextEditingController();
   String errorMessage = '';
- 
-  Future addCategory(context) async {
+
+  Future saveCategory(context) async {
     final form = _formKey.currentState;
- 
+
     if (!form!.validate()) {
       return;
     }
- 
 
     await widget.categoryCallback(categoryNameController.text);
- 
+
     Navigator.pop(context);
-  }
- 
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -63,7 +57,6 @@ class CategoryAddState extends State<CategoryAdd> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // We have also added a Cancel button
                   ElevatedButton(
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
@@ -74,7 +67,7 @@ class CategoryAddState extends State<CategoryAdd> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      addCategory(context);
+                      saveCategory(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.purple,

@@ -6,7 +6,7 @@ class Transaction {
   String amount;
   String transactionDate;
   String createdAt;
- 
+
   Transaction(
       {required this.id,
       required this.categoryId,
@@ -15,7 +15,7 @@ class Transaction {
       required this.amount,
       required this.transactionDate,
       required this.createdAt});
- 
+
   factory Transaction.fromJson(Map<String, dynamic> json) {
     return Transaction(
       id: json['id'],

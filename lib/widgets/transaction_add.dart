@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_app/models/category.dart';
+import 'package:laravel_api_flutter_app/models/category.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_app/providers/category_provider.dart';
- 
+import 'package:laravel_api_flutter_app/providers/category_provider.dart';
+
 class TransactionAdd extends StatefulWidget {
   final Function transactionCallback;
- 
+
   const TransactionAdd(this.transactionCallback, {super.key});
- 
+
   @override
   TransactionAddState createState() => TransactionAddState();
 }
- 
+
 class TransactionAddState extends State<TransactionAdd> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final transactionAmountController = TextEditingController();
@@ -21,7 +21,7 @@ class TransactionAddState extends State<TransactionAdd> {
   final transactionDescriptionController = TextEditingController();
   final transactionDateController = TextEditingController();
   String errorMessage = '';
- 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -68,7 +68,7 @@ class TransactionAddState extends State<TransactionAdd> {
                   if (value!.trim().isEmpty) {
                     return 'Description is required';
                   }
- 
+
                   return null;
                 },
                 onChanged: (text) => setState(() => errorMessage = ''),
@@ -96,8 +96,9 @@ class TransactionAddState extends State<TransactionAdd> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white),
                       child: Text('Cancel'),
                       onPressed: () => Navigator.pop(context),
                     ),
@@ -105,15 +106,14 @@ class TransactionAddState extends State<TransactionAdd> {
                       onPressed: () => saveTransaction(context),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple,
-                          foregroundColor: Colors.white
-                      ),
+                          foregroundColor: Colors.white),
                       child: Text('Save'),
                     ),
                   ]),
               Text(errorMessage, style: TextStyle(color: Colors.red))
             ])));
   }
- 
+
   Future selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -127,7 +127,7 @@ class TransactionAddState extends State<TransactionAdd> {
       });
     }
   }
- 
+
   Widget buildCategoriesDropdown() {
     return Consumer<CategoryProvider>(
       builder: (context, cProvider, child) {
@@ -163,14 +163,14 @@ class TransactionAddState extends State<TransactionAdd> {
       },
     );
   }
- 
+
   Future saveTransaction(context) async {
     final form = _formKey.currentState;
- 
+
     if (!form!.validate()) {
       return;
     }
- 
+
     await widget.transactionCallback(
         transactionAmountController.text,
         transactionCategoryController.text,

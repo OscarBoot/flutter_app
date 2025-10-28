@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/transaction.dart';
-import 'package:flutter_app/widgets/transaction_add.dart';
-import 'package:flutter_app/widgets/transaction_edit.dart';
+import 'package:laravel_api_flutter_app/models/transaction.dart';
+import 'package:laravel_api_flutter_app/widgets/transaction_add.dart';
+import 'package:laravel_api_flutter_app/widgets/transaction_edit.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_app/providers/transaction_provider.dart';
- 
+import 'package:laravel_api_flutter_app/providers/transaction_provider.dart';
+
 class Transactions extends StatefulWidget {
   const Transactions({super.key});
 
   @override
-  TransactionsState createState() => TransactionsState();
+  TransactionState createState() => TransactionState();
 }
- 
-class TransactionsState extends State<Transactions> {
+
+class TransactionState extends State<Transactions> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TransactionProvider>(context);
     List<Transaction> transactions = provider.transactions;
- 
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Transactions'),
@@ -63,7 +63,9 @@ class TransactionsState extends State<Transactions> {
                             TextButton(
                                 child: Text("Delete"),
                                 onPressed: () => deleteTransaction(
-                                    provider.deleteTransaction, transaction, context)),
+                                    provider.deleteTransaction,
+                                    transaction,
+                                    context)),
                           ],
                         );
                       });
@@ -85,8 +87,9 @@ class TransactionsState extends State<Transactions> {
           child: Icon(Icons.add)),
     );
   }
- 
-  Future deleteTransaction(Function callback, Transaction transaction, context) async {
+
+  Future deleteTransaction(
+      Function callback, Transaction transaction, context) async {
     await callback(transaction);
     Navigator.pop(context);
   }
