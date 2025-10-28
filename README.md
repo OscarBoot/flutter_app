@@ -1,4 +1,4 @@
-# flutter_app
+# laravel_api_flutter_app
 
 A new Flutter project.
 

@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/providers/auth_provider.dart';
+import 'package:laravel_api_flutter_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
- 
+
 class Login extends StatefulWidget {
   const Login({super.key});
- 
+
   @override
   LoginState createState() => LoginState();
 }
- 
-class LoginState extends State< Login> {
+
+class LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
- 
+
   String errorMessage = '';
- 
+
   late String deviceName;
- 
+
   @override
   void initState() {
     super.initState();
     getDeviceName();
   }
- 
+
   Future<void> getDeviceName() async {
     try {
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -46,7 +46,7 @@ class LoginState extends State< Login> {
       });
     }
   }
- 
+
   Future<void> submit() async {
     final form = _formKey.currentState;
     if (!form!.validate()) {
@@ -63,7 +63,7 @@ class LoginState extends State< Login> {
       });
     }
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,22 +1,21 @@
- 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_app/models/category.dart';
-import 'package:flutter_app/models/transaction.dart';
+import 'package:laravel_api_flutter_app/models/category.dart';
+import 'package:laravel_api_flutter_app/models/transaction.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_app/providers/category_provider.dart';
- 
+import 'package:laravel_api_flutter_app/providers/category_provider.dart';
+
 class TransactionEdit extends StatefulWidget {
   final Transaction transaction;
   final Function transactionCallback;
- 
+
   const TransactionEdit(this.transaction, this.transactionCallback, {super.key});
- 
+
   @override
   TransactionEditState createState() => TransactionEditState();
 }
- 
+
 class TransactionEditState extends State<TransactionEdit> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final transactionAmountController = TextEditingController();
@@ -24,7 +23,7 @@ class TransactionEditState extends State<TransactionEdit> {
   final transactionDescriptionController = TextEditingController();
   final transactionDateController = TextEditingController();
   String errorMessage = '';
- 
+
   @override
   void initState() {
     transactionAmountController.text = widget.transaction.amount.toString();
@@ -36,7 +35,7 @@ class TransactionEditState extends State<TransactionEdit> {
         widget.transaction.transactionDate.toString();
     super.initState();
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -83,7 +82,7 @@ class TransactionEditState extends State<TransactionEdit> {
                   if (value!.trim().isEmpty) {
                     return 'Description is required';
                   }
- 
+
                   return null;
                 },
                 onChanged: (text) => setState(() => errorMessage = ''),
@@ -128,7 +127,7 @@ class TransactionEditState extends State<TransactionEdit> {
               Text(errorMessage, style: TextStyle(color: Colors.red))
             ])));
   }
- 
+
   Future selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -142,12 +141,12 @@ class TransactionEditState extends State<TransactionEdit> {
       });
     }
   }
- 
+
   Widget buildCategoriesDropdown() {
     return Consumer<CategoryProvider>(
       builder: (context, cProvider, child) {
         List<Category> categories = cProvider.categories;
- 
+
         return DropdownButtonFormField(
           elevation: 8,
           items: categories.map<DropdownMenuItem<String>>((e) {
@@ -156,12 +155,12 @@ class TransactionEditState extends State<TransactionEdit> {
                 child: Text(e.name,
                     style: TextStyle(color: Colors.black, fontSize: 20.0)));
           }).toList(),
-          initialValue: transactionCategoryController.text,
+          value: transactionCategoryController.text,
           onChanged: (String? newValue) {
             if (newValue == null) {
               return;
             }
- 
+
             setState(() {
               transactionCategoryController.text = newValue.toString();
             });
@@ -181,20 +180,20 @@ class TransactionEditState extends State<TransactionEdit> {
       },
     );
   }
- 
+
   Future saveTransaction(context) async {
     final form = _formKey.currentState;
- 
+
     if (!form!.validate()) {
       return;
     }
- 
+
     widget.transaction.amount = transactionAmountController.text;
     widget.transaction.categoryId =
         int.parse(transactionCategoryController.text);
     widget.transaction.description = transactionDescriptionController.text;
     widget.transaction.transactionDate = transactionDateController.text;
- 
+
     await widget.transactionCallback(widget.transaction);
     Navigator.pop(context);
   }

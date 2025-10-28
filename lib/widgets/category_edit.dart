@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/category.dart';
- 
+import 'package:laravel_api_flutter_app/models/category.dart';
+
 class CategoryEdit extends StatefulWidget {
   final Category category;
   final Function categoryCallback;
 
   const CategoryEdit(this.category, this.categoryCallback, {super.key});
- 
+
   @override
   CategoryEditState createState() => CategoryEditState();
 }
- 
+
 class CategoryEditState extends State<CategoryEdit> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final categoryNameController = TextEditingController();
-
   String errorMessage = '';
- 
+
   Future saveCategory(context) async {
     final form = _formKey.currentState;
- 
+
     if (!form!.validate()) {
       return;
     }
- 
+
     widget.category.name = categoryNameController.text;
- 
+
     await widget.categoryCallback(widget.category);
- 
+
     Navigator.pop(context);
   }
- 
+
   @override
   void initState() {
     categoryNameController.text = widget.category.name;
@@ -68,7 +67,6 @@ class CategoryEditState extends State<CategoryEdit> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // We have also added a Cancel button
                   ElevatedButton(
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(

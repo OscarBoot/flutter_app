@@ -1,53 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/providers/auth_provider.dart';
+import 'package:laravel_api_flutter_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
- 
+
 class Register extends StatefulWidget {
   const Register({super.key});
- 
+
   @override
   RegisterState createState() => RegisterState();
 }
- 
+
 class RegisterState extends State<Register> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
- 
+
   String errorMessage = '';
+
   late String deviceName;
 
   @override
   void initState() {
-      super.initState();
-      getDeviceName(); 
+    super.initState();
+    getDeviceName();
   }
 
-  Future<void> getDeviceName() async { 
-      try {
-        DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-        if (Platform.isAndroid) {
-          AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-          setState(() {
-            deviceName = androidInfo.model;
-          });
-        } else if (Platform.isIOS) {
-          IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-          setState(() {
-            deviceName = iosInfo.name;
-          });
-        }
-      } catch (e) {
+  Future<void> getDeviceName() async {
+    try {
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      if (Platform.isAndroid) {
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
         setState(() {
-          deviceName = 'Could not retrieve device name';
+          deviceName = androidInfo.model;
+        });
+      } else if (Platform.isIOS) {
+        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+        setState(() {
+          deviceName = iosInfo.name;
         });
       }
-  } 
-
+    } catch (e) {
+      setState(() {
+        deviceName = 'Could not retrieve device name';
+      });
+    }
+  }
 
   Future<void> submit() async {
     final form = _formKey.currentState;
@@ -55,7 +55,7 @@ class RegisterState extends State<Register> {
       return;
     }
     final AuthProvider provider =
-        Provider.of<AuthProvider>(context, listen: false);
+    Provider.of<AuthProvider>(context, listen: false);
     try {
       await provider.register(
           nameController.text,
@@ -70,7 +70,7 @@ class RegisterState extends State<Register> {
       });
     }
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +78,9 @@ class RegisterState extends State<Register> {
           title: Text('Register'),
         ),
         body: Container(
-            color: Theme.of(context).primaryColor,
+            color: Theme
+                .of(context)
+                .primaryColor,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -98,7 +100,7 @@ class RegisterState extends State<Register> {
                               if (value!.isEmpty) {
                                 return 'Name is required';
                               }
- 
+
                               return null;
                             },
                             decoration: InputDecoration(
@@ -114,7 +116,7 @@ class RegisterState extends State<Register> {
                               if (value!.isEmpty) {
                                 return 'Email is required';
                               }
- 
+
                               return null;
                             },
                             decoration: InputDecoration(
@@ -133,7 +135,7 @@ class RegisterState extends State<Register> {
                               if (value!.isEmpty) {
                                 return 'Password is required';
                               }
- 
+
                               return null;
                             },
                             decoration: InputDecoration(
@@ -152,11 +154,11 @@ class RegisterState extends State<Register> {
                               if (value!.isEmpty) {
                                 return 'Confirm Password is required';
                               }
- 
+
                               if (value != passwordController.text) {
                                 return 'Passwords do not match';
                               }
- 
+
                               return null;
                             },
                             decoration: InputDecoration(

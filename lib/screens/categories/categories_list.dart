@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/category.dart';
-import 'package:flutter_app/widgets/category_edit.dart'; 
-import 'package:flutter_app/widgets/category_add.dart';
-import 'package:flutter_app/providers/category_provider.dart';
+import 'package:laravel_api_flutter_app/models/category.dart';
+import 'package:laravel_api_flutter_app/widgets/category_edit.dart';
+import 'package:laravel_api_flutter_app/widgets/category_add.dart';
+import 'package:laravel_api_flutter_app/providers/category_provider.dart';
 import 'package:provider/provider.dart';
- 
+
 class CategoriesList extends StatefulWidget {
   const CategoriesList({super.key});
 
@@ -13,13 +13,6 @@ class CategoriesList extends StatefulWidget {
 }
 
 class CategoriesListState extends State<CategoriesList> {
-  late Category selectedCategory;
-  final categoryNameController = TextEditingController();
-  // final floatingActionButton1 = FloatingActionButton(
-  //   onPressed: () {},
-  //   child: Icon(Icons.add),
-  // ); 
-
   @override
   void initState() {
     super.initState();
@@ -30,7 +23,7 @@ class CategoriesListState extends State<CategoriesList> {
     return Consumer<CategoryProvider>(
       builder: (context, provider, child) {
         List<Category> categories = provider.categories;
- 
+
         return Scaffold(
           appBar: AppBar(
             title: Text('Categories List'),
@@ -50,7 +43,8 @@ class CategoriesListState extends State<CategoriesList> {
                           context: context,
                           isScrollControlled: true,
                           builder: (context) {
-                            return CategoryEdit(category, provider.updateCategory);
+                            return CategoryEdit(
+                                category, provider.updateCategory);
                           },
                         );
                       },
@@ -85,7 +79,6 @@ class CategoriesListState extends State<CategoriesList> {
                       },
                       icon: Icon(Icons.delete),
                     ),
-
                   ],
                 ),
               );
@@ -103,7 +96,6 @@ class CategoriesListState extends State<CategoriesList> {
             },
             child: Icon(Icons.add),
           ),
-
         );
       },
     );
